@@ -1,35 +1,41 @@
 #include <iostream>
-#include <vector>
 #include <queue>
 
 using namespace std;
 
-int main() {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
+int main()
+{
+    ios::sync_with_stdio(0);
+    cin.tie(NULL);
+    cout.tie(NULL);
     
-    int n, x; // 연산 횟수, 연산 종류
-    priority_queue<int> pq;
-
+    int n, x;
+    
+    // 입력
     cin >> n;
+    
+    priority_queue<int> max_heap;
+    
+    // 연산    
     while(n--) {
         cin >> x;
-        if(x == 0) {
-            // 힙이 비었다면 0을 출력하고
-            if(pq.empty()) {
-                cout << "0" << '\n';
+        
+        // x가 0이면 가장 큰 값을 출력하고 제거
+        if (x == 0) {
+            if (max_heap.empty()) {
+                // 힙이 비었다면 0 출력 
+                cout << "0\n";
+                continue;
             }
-            // 가장 큰 값을 출력
-            else {
-                cout << pq.top() << '\n'; // pq.pop()은 리턴값 없음
-                pq.pop();
-            }
+            cout << max_heap.top() << '\n';
+            max_heap.pop();
         }
+        
+        // x가 자연수라면 힙에 x 추가
         else {
-            // x 삽입
-            pq.push(x);
+            max_heap.push(x);
         }
     }
+
     return 0;
 }
