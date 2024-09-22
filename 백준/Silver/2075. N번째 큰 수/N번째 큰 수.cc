@@ -1,38 +1,49 @@
 #include <iostream>
-#include <vector>
 #include <queue>
-#include <functional>
-
 using namespace std;
 
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
+// 모든 수는 자신의 한 칸 위에 있는 수보다 크다. 
+// 표에 채워진 수는 모두 다르다.
 
-    int n;
+// min_heap 우선순위큐 n_numbers 에는 딱 n개만 저장 -> 최종적으로 top이 n번째 큰 수가 되도록)
+// 새로 들어온 input과 top = q.top()을 비교할 것임
+// input > top 이면 input을 q에 추가하고, top을 q에서 제거함
+void checkNum(priority_queue<int, vector<int>, greater<int>> &n_numbers, int input){
+    if (input > n_numbers.top()){
+        n_numbers.push(input);
+        n_numbers.pop();    // 가장 작은 값을 제거하여 크기를 유지
+    }
+}
+
+int main(){
+    // 입출력 속도 향상
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+
+    int n; // n: n*n개의 수가 주어진다 (1이상 1500이하)
+    int input; // input: 입력받는 정수 (n^2개 입력받음)
+    int answ; // answ: 출력할 n번째 큰 수
+    priority_queue<int, vector<int>, greater<int>> n_numbers; // n_numbers: answ 구하기 위한 min_heap 우선순위큐 
+
+    // 입력
     cin >> n;
-
-
-    priority_queue<int, vector<int>, greater<int>> pq; // 오름차순으로 넣어주는 힙 생성
-
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            int k;
-            cin >> k;
-
-            // 우선 pq에 n개만큼 넣기
-            if (pq.size() < n) {
-                pq.push(k);
-            }
-
-            else if (k > pq.top()) {
-                pq.pop(); // pq의 top에는 현재까지의 최솟값이 들어있다. 따라서 이런 식으로 갱신을 해주다 보면, 마지막엔 제일 위에 5번째로 큰 값 즉, n*n-5번째로 작은 값이 남게 된다.!)
-                pq.push(k);
-            }
+    // n_numbers에 n개의 값 저장
+    for (int i = 0; i < n; i++){
+        cin >> input;
+        n_numbers.push(input);
+    }
+    for (int i = 0; i < n-1; i++){
+        for (int j = 0; j < n; j++){
+            cin >> input;
+            checkNum(n_numbers, input);
         }
     }
 
-    cout << pq.top() << "\n";
+    // 연산
+    answ = n_numbers.top();
+
+    // 출력
+    cout << answ;
 
     return 0;
 }
