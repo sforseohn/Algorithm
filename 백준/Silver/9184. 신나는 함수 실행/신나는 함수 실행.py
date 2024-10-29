@@ -1,3 +1,6 @@
+import sys
+input = sys.stdin.readline
+
 MAX_NUM = 20
 
 def dp():
