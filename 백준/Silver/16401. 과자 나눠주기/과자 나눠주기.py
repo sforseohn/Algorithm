@@ -1,4 +1,7 @@
 # 과자 나눠주기
+import sys
+input = sys.stdin.readline
+
 def cntNephew(length, snacks):
     cnt = 0
     for snack in snacks:
@@ -27,7 +30,7 @@ snacks = list(map(int, input().split())) # 과자의 길이
 
 # 연산 
 snacks.sort()
-ans = binary_search(1, max(snacks), m, snacks)
+ans = binary_search(1, snacks[n-1], m, snacks)
 
 # 출력
 print(ans)
