@@ -1,6 +1,4 @@
-import sys
-input = sys.stdin.readline
-
+# 과자 나눠주기
 def cntNephew(length, snacks):
     cnt = 0
     for snack in snacks:
