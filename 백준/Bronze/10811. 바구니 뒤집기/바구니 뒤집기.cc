@@ -15,7 +15,7 @@ int main() {
     while(m--) {
         int i, j;
         cin >> i >> j;
-        for (int k = 0; k < (j - i) / 2.0; k++) {
+        for (int k = 0; k <= (j - i) / 2; k++) {
             swap(nums[i + k], nums[j - k]);
         }
     }
