@@ -1,5 +1,5 @@
 #include <iostream>
-#include <map>
+#include <set>
 
 using namespace std;
 
@@ -12,7 +12,7 @@ int main()
   int n, cnt = 0;
   string input;
   cin >> n;
-  map<string, bool> nicknames;
+  set<string> nicknames;
   
   while (n--) {
     cin >> input;
@@ -22,9 +22,9 @@ int main()
       continue;
     }
     
-    if (!nicknames[input]) {
+    if (nicknames.find(input) == nicknames.end()) {
       cnt++;
-      nicknames[input] = true;
+      nicknames.insert(input);
     }
   }
 
