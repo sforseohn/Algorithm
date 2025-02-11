@@ -2,9 +2,10 @@
 #include <vector>
 
 using namespace std;
+typedef long long ll;
 
-int findMinPrice(int n, vector<int> road, vector<int> price) {
-  int sum = 0;
+ll findMinPrice(int n, vector<ll> road, vector<ll> price) {
+  ll sum = 0;
   int min_price = price[0];
   
   for (int i = 0; i < n - 1; i++) {
@@ -21,8 +22,8 @@ int main()
   // 입력
   int n;
   cin >> n;
-  vector<int> road(n-1);
-  vector<int> price(n);
+  vector<ll> road(n-1);
+  vector<ll> price(n);
   
   for (int i = 0; i < n-1; i++) {
     cin >> road[i];
