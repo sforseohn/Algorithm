@@ -24,7 +24,7 @@ int main() {
     ll ans = getGcd(a, b);
     
     for (ll i = 0; i < ans; i++) {
-        cout << 1;
+        cout << "1";
     }
     cout << '\n';
    
