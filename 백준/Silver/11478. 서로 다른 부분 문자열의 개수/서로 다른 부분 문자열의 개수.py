@@ -1,4 +1,7 @@
-s = input()
+import sys
+input = sys.stdin.readline
+
+s = input().strip()
 
 substrs = set()
 
