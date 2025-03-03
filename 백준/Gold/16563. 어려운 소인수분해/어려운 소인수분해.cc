@@ -1,53 +1,61 @@
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 using namespace std;
 
 const int MAX = 5000000;
-vector<int> getPrime() {
-    vector<int> prime(MAX+1, 0); // 크기, 초기화
-    for(int i = 2; i * i <= MAX; i++) {
-        if(prime[i] == 0) {
-            for(int j = i*i; j <= MAX; j += i) {
-                if(prime[j] == 0) { // j에 저장된 것이 없다면 저장
-                    prime[j] = i;
-                }
+
+vector<int> getPrimes() {
+    vector<int> primes(MAX + 1, 0);
+
+    for (int i = 2; i <= sqrt(MAX); i++) {
+        if (primes[i] != 0) { // 이미 다른 수에 의해 지워짐
+            continue;
+        }
+
+        // i는 가장 작은 소인수
+        for (int j = i * i; j <= MAX; j += i) {
+            if (primes[j] == 0) {
+                primes[j] = i;
             }
         }
     }
-    return prime;
+
+    return primes;
 }
 
-// 소인수 전부 찾기
-vector<int> getFactors(int k, vector<int> &prime) { // 원본 프라임이 변경됨
+vector<int> getPrimeFactors(int k, vector<int> &primes) {
     vector<int> factors;
-    while(prime[k] != 0) {
-        factors.push_back(prime[k]);
-        k /= prime[k];
+
+    while (primes[k] != 0) {
+        factors.push_back(primes[k]);
+        k /= primes[k];
     }
+
     factors.push_back(k);
     return factors;
 }
 
-int main() { // 최대한 메인에서는 입출력만 일어나도록
-    ios_base::sync_with_stdio(false);
+int main()
+{
+    ios::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
 
     int n, k;
-    cin >> n; 
+    cin >> n;
 
-    vector<int> prime = getPrime();
-    
-    for(int i = 0; i < n; i++) {
+    vector<int> primes = getPrimes();
+
+    while (n--) {
         cin >> k;
+        vector<int> factors = getPrimeFactors(k, primes);
 
-        // 소인수 출력
-        vector<int> factors = getFactors(k, prime);
-
-        for(int num : factors) {
-            cout << num << " ";
+        for (int factor : factors) {
+            cout << factor << " ";
         }
-        cout << "\n";
+        cout << '\n';
     }
 }
+
