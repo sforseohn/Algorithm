@@ -1,40 +1,36 @@
 #include <iostream>
 #include <vector>
-#include <cmath>
 
 using namespace std;
 
-// 에라토스테네스의 체로 소수 판정
-int isPrime(int n, int target) {
-    vector<bool> is_prime(n + 1, true);
+int findPrime(int n, int k) {
     int cnt = 0;
+    vector<bool> is_prime(n+1, true); // 소수 여부 저장
 
     for (int i = 2; i <= n; i++) {
-        if (!is_prime[i]) {
+        if (!is_prime[i]) { // 이미 지워진 수이면 탐색 X
             continue;
         }
-
+        
         for (int j = i; j <= n; j += i) {
-            if (!is_prime[j]) {
+            if (!is_prime[j]) { // 이미 지워진 수이면 탐색 X
                 continue;
             }
 
-            if (++cnt == target) {
+            is_prime[j] = false;
+
+            if (++cnt == k) {
                 return j;
             }
-            is_prime[j] = false;
         }
     }
-    return 0;
+    return -1;
 }
 
-int main() {
+int main()
+{
     int n, k;
     cin >> n >> k;
 
-    int ans = isPrime(n, k);
-
-    cout << ans << '\n';
-    
-    return 0;
+    cout << findPrime(n, k) << '\n';
 }
