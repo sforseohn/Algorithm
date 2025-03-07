@@ -1,9 +1,11 @@
-#include <algorithm>
 #include <iostream>
 #include <vector>
+#include <set>
+#include <algorithm>
 
 using namespace std;
 
+// 소수 여부 반환: 에라토스테네스의 체 이용
 vector<bool> getPrimes(int n) {
   vector<bool> is_prime(n + 1, true);
   is_prime[0] = is_prime[1] = false;
@@ -21,36 +23,46 @@ vector<bool> getPrimes(int n) {
   return is_prime;
 }
 
-bool isTargetNum(int num) {
-  vector<int> prev_num;
+// 각 자리수의 제곱의 합 계산
+int getSum(int n) {
+  int total = 0, tmp;
+  while (n != 0) {
+    tmp = n % 10; // 가장 마지막 자리 숫자 추출
+    total += tmp * tmp;
+    n /= 10; // 가장 마지막 자리 숫자 없애기
+  }
+  return total;
+}
+
+// 상근수 여부 반환
+bool isTargetNum(int n) {
+  vector<int> visited; // 지금까지 나온 값을 저장하는 집합
+  visited.push_back(n);
 
   while (true) {
-    int sum = 0;
-    string nums_str = to_string(num);
-    for (int j = 0; j < nums_str.length(); j++) {
-      int num = nums_str[j] - '0';
-      sum += num * num;
-    }
+    n = getSum(n); // 각 자리수 제곱의 합 구하기
 
-    if (sum == 1) {
+    if (n == 1) {
       return true;
     }
 
-    if (find(prev_num.begin(), prev_num.end(), num) != prev_num.end()) {
+    // 이전에 나온 적이 있는 값이면 상근수 아님
+    if (find(visited.begin(), visited.end(), n) != visited.end()) {
       return false;
     }
-    prev_num.push_back(num);
-    num = sum;
+    visited.push_back(n);
   }
 }
 
 int main() {
+  // 입력
   int n;
   cin >> n;
 
+  // 연산 & 출력
   vector<bool> is_prime = getPrimes(n);
 
-  for (int i = 1; i <= n; i++) {
+  for (int i = 2; i <= n; i++) {
     if (is_prime[i] && isTargetNum(i)) {
       cout << i << '\n';
     }
