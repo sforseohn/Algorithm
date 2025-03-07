@@ -17,6 +17,8 @@ vector<int> solution(int n, vector<int> &numbers) {
     vector<int> result; //가능한 M 저장
 
     // 1. 검문소 사이 간격의 최대공약수(최대 M) 계산
+    // 연속한 두 검문소의 차이를 계산하기 위해 정렬
+    sort(numbers.begin(), numbers.end());
     int gcd = numbers[1] - numbers[0];
     for (int i = 2; i < n; i++) {
         gcd = getGCD(gcd, numbers[i] - numbers[i - 1]);
@@ -43,7 +45,6 @@ int main() {
     }
 
     // 연산
-    sort(numbers.begin(), numbers.end());
     vector<int> result = solution(n, numbers);
 
     // 출력
