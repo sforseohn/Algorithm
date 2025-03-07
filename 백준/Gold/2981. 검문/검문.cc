@@ -1,54 +1,54 @@
 #include <iostream>
 #include <vector>
-#include <string>
-#include <algorithm>
+#include <algorithm>    // sort() 이용
 
 using namespace std;
-int getGcdRecur(int a, int b) {
-    if(b == 0) {
+
+// 최대공약수(GCD) 계산 함수: 유클리드 호제법 이용
+int getGCD(int a, int b) {
+    if (b == 0) {
         return a;
     }
-    return getGcdRecur(b, a % b);
+    return getGCD(b, a % b);
 }
 
-vector<int> findM(vector<int> &nums) { // m에 해당하는 수 집합 리턴하는 함수
-    vector<int> m;
+// 가능한 M 검색 함수
+vector<int> solution(int n, vector<int> &numbers) {
+    vector<int> result; //가능한 M 저장
 
-    // 두 수 사이 간격의 최대공약수 구하기
-    int gcd = nums[1] - nums[0];
-    for(int i = 2; i < nums.size(); i++) {
-        gcd = getGcdRecur(max(gcd, nums[i] - nums[i-1]), min(gcd, nums[i] - nums[i-1]));
+    // 1. 검문소 사이 간격의 최대공약수(최대 M) 계산
+    int gcd = numbers[1] - numbers[0];
+    for (int i = 2; i < n; i++) {
+        gcd = getGCD(gcd, numbers[i] - numbers[i - 1]);
     }
 
-    // 공약수 구하기: 공약수는 최대공약수의 약수
-    for(int i = 2; i <= gcd/2; i++) {
-        if(gcd % i == 0) {
-            m.push_back(i);
+    // 2. 가능한 모든 M 찾기: 최대공약수의 약수 찾기
+    for (int i = 2; i * 2 <= gcd; i++) {
+        if (gcd % i == 0) {
+            result.push_back(i);
         }
     }
-    m.push_back(gcd);
+    result.push_back(gcd);
 
-    return m;
+    return result;
 }
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
-    
+    // 입력
     int n;
     cin >> n;
-    vector<int> nums(n);
-    for(int i = 0; i < n; i++) {
-        cin >> nums[i];
+    vector<int> numbers(n);
+    for (int i = 0; i < n; i++) {
+        cin >> numbers[i];
     }
-    
-    sort(nums.begin(), nums.end());
-    vector<int> m = findM(nums);
 
-    for(int i : m) {
+    // 연산
+    sort(numbers.begin(), numbers.end());
+    vector<int> result = solution(n, numbers);
+
+    // 출력
+    for (int i: result) {
         cout << i << " ";
     }
-
     return 0;
 }
