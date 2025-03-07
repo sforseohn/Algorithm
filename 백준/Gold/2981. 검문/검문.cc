@@ -1,37 +1,35 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>    // sort() 이용
+#include <algorithm>
 
 using namespace std;
 
-// 최대공약수(GCD) 계산 함수: 유클리드 호제법 이용
-int getGCD(int a, int b) {
+int getGcd(int a, int b) {
     if (b == 0) {
         return a;
     }
-    return getGCD(b, a % b);
+    return getGcd(b, a % b);
 }
 
-// 가능한 M 검색 함수
+// 가능한 모든 M을 반환하는 함수
 vector<int> solution(int n, vector<int> &numbers) {
-    vector<int> result; //가능한 M 저장
+    vector<int> result;
 
-    // 1. 검문소 사이 간격의 최대공약수(최대 M) 계산
-    // 연속한 두 검문소의 차이를 계산하기 위해 정렬
+    // 이웃한 수들 간의 차의 최대공약수 구하기
     sort(numbers.begin(), numbers.end());
     int gcd = numbers[1] - numbers[0];
+
     for (int i = 2; i < n; i++) {
-        gcd = getGCD(gcd, numbers[i] - numbers[i - 1]);
+        gcd = getGcd(gcd, numbers[i] - numbers[i - 1]);
     }
 
-    // 2. 가능한 모든 M 찾기: 최대공약수의 약수 찾기
-    for (int i = 2; i * 2 <= gcd; i++) {
+    // 최대공약수의 약수 구해서 리턴
+    for (int i = 2; i <= gcd / 2; i++) {
         if (gcd % i == 0) {
             result.push_back(i);
         }
     }
     result.push_back(gcd);
-
     return result;
 }
 
@@ -44,12 +42,10 @@ int main() {
         cin >> numbers[i];
     }
 
-    // 연산
     vector<int> result = solution(n, numbers);
 
-    // 출력
     for (int i: result) {
-        cout << i << " ";
+        cout << i << ' ';
     }
     return 0;
 }
