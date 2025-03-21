@@ -1,32 +1,36 @@
-import collections
+from collections import deque 
 
-def bfs(start_x, start_y, maps):  
+def bfs(maps):
     n = len(maps)
     m = len(maps[0])
+    visited = [[False] * m for _ in range(n)]
+    queue = deque([(0, 0, 1)]) # 시작 위치, 거리
+    
     dx = [-1, 1, 0, 0]
     dy = [0, 0, -1, 1]
     
-    queue = collections.deque()
-    queue.append((start_x, start_y))
-    
     while queue:
-        x, y = queue.popleft()
+        x, y, cost = queue.popleft()
         
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            
-            if 0 <= nx < n and 0 <= ny < m:
-                if maps[nx][ny] == 1:        
-                    maps[nx][ny] = maps[x][y] + 1
-                    queue.append((nx, ny))      
-                    
-    return maps[n-1][m-1]
+        for i in range(len(dx)):
+            new_x = x + dx[i]
+            new_y = y + dy[i]
 
-def solution(maps):    
-    answer = bfs(0, 0, maps)
+            # 범위 안에 있는지, 지나갈 수 있는지 체크
+            if 0 > new_x or new_x >= n or 0 > new_y or new_y >= m:
+                continue
+            if maps[new_x][new_y] == 0 or visited[new_x][new_y]:
+                continue
+                
+            if (new_x == n - 1 and new_y == m - 1):
+                return cost + 1
+      
+            visited[new_x][new_y] = True
+            queue.append((new_x, new_y, cost + 1))
     
-    if answer == 1:
-        return -1
+    return -1
     
+
+def solution(maps):
+    answer = bfs(maps)
     return answer
