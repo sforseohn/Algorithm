@@ -1,11 +1,9 @@
 from collections import deque
 
 def bfs(n, m):
-    visited = [[False] * m for _ in range(n)]
     dx = [0, 1, 0, -1]
     dy = [1, 0, -1, 0]
     queue = deque([(0, 0)])
-    visited[0][0] = True
 
     while queue:
         x, y = queue.popleft()
@@ -17,16 +15,12 @@ def bfs(n, m):
         for i in range(4):
             new_x = x + dx[i]
             new_y = y + dy[i]
-            if 0 <= new_x < n and 0 <= new_y < m and not visited[new_x][new_y] and graph[new_x][new_y] != 0:
-                visited[new_x][new_y] = True
+            if 0 <= new_x < n and 0 <= new_y < m and graph[new_x][new_y] == 1:
                 graph[new_x][new_y] = graph[x][y] + 1
                 queue.append((new_x, new_y))
 
-
+                
 n, m = map(int, input().split())
-graph = []
-
-for _ in range(n):
-    graph.append(list(map(int, input().strip())))
+graph = [list(map(int, input())) for _ in range(n)]
 
 print(bfs(n, m))
