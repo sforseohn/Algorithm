@@ -58,7 +58,6 @@ queue = deque()
 for i in range(h):
     for j in range(n):
         graph[i][j] = list(map(int, input().split()))
-        graph_sum += sum(graph[i][j])
 
         for k in range(m):
             graph_sum += graph[i][j][k]
