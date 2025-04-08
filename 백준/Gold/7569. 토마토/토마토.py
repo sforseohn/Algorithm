@@ -21,7 +21,7 @@ def check_finish():
 
 
 def bfs(queue):
-    is_changed = False
+    time = 1
 
     while queue:
         z, x, y = queue.popleft()
@@ -38,15 +38,16 @@ def bfs(queue):
                 continue
 
             graph[nz][nx][ny] = graph[z][x][y] + 1
-            is_changed = True
+            time = graph[nz][nx][ny]
             queue.append((nz, nx, ny))
 
-    return is_changed
+    return time - 1
 
 
 def end_search():
     print(-1)
     exit(0)
+
 
 # 입력
 m, n, h = map(int, input().split())
@@ -67,16 +68,9 @@ for i in range(h):
 if graph_sum == 0:
     end_search()
 
-bfs(queue)
+time = bfs(queue)
 
 if not check_finish():
     end_search()
 
-# 최댓값 - 1 출력
-max_num = 0
-for plane in graph:
-    for row in plane:
-        for num in row:
-            max_num = max(max_num, num)
-
-print(max_num - 1)
+print(time)
