@@ -30,6 +30,14 @@ def diffuse(r, c, to_add):
     return to_add
 
 
+def check_change_direction(nx, ny, r, direction):
+    return (
+        not check_range(nx, ny)
+        or (direction == 1 and nx > r)
+        or (direction == -1 and nx < r)
+    )
+
+
 def rotate(r, direction):
     # 동 북 서 남 (+1)
     if direction == CLOCKWISE:
@@ -41,11 +49,8 @@ def rotate(r, direction):
 
     while (True):
         # 다음 인덱스 구하기
-        if not check_range(x + dx[d], y + dy[d]):
-            d = (d - direction) % 4
-        elif direction == 1 and x + dx[d] > r:
-            d = (d - direction) % 4
-        elif direction == -1 and x + dx[d] < r:
+        nx, ny = x + dx[d], y + dy[d]
+        if check_change_direction(nx, ny, r, direction):
             d = (d - direction) % 4
 
         x += dx[d]
